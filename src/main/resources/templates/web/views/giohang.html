@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       th:replace="~{web/templateWeb::templateWeb(~{::title}, ~{::main})}"
+       lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+</head>
+<body>
+
+<!-- content -->
+<main class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-12 offset-md-1">
+            <table class="table text-center align-middle table-product">
+                <thead>
+                <tr>
+                    <th class="text-start ps-5">Thông tin sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Duyệt danh sách sản phẩm trong giỏ hàng -->
+                <tr th:each="item : ${cartItem}" th:object="${item}" th:id="'product-item-' + ${item.idChitietGiohang}">
+                    <td>
+                        <div class="box-information-product d-flex ms-3">
+                            <input type="checkbox" name="choie-product"
+                                   th:id="'choie-product-' + ${item.idChitietGiohang}"
+                                   class="align-self-start">
+                            <div class="box-img ms-2 me-2 c-img-cart">
+                                <img th:src="@{'/web/img/' + ${item.hinhAnh}}"
+                                     class="rounded-4" alt="">
+                            </div>
+                            <div class="box-text ms-5 d-flex accordion flex-column">
+                                <label class="label-form fs-5 fw-bold align-self-start"
+                                       th:for="'choie-product-' + ${item.idSanpham}">${item.tenSanpham}</label>
+                                <div class="choice-color mt-2 mb-2">
+                                    <select class="form-control-sm border-0 rounded-3">
+                                        <option value="xanh dương">Xanh dương</option>
+                                        <option value="hồng">Hồng</option>
+                                        <option value="trắng">Trắng</option>
+                                        <option value="tím">Tím</option>
+                                    </select>
+                                </div>
+                                <div class="btn btn-remove border border-black"
+                                     th:onclick="'removeCart(' + ${item.idChitietGiohang} + ')'">Xóa</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="fs-5" th:text="${item.gia}"><span class="unit ">/cây</span></td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button"
+                                    class="btn btn-lg border border-black rounded-0"
+                                    th:onclick="'changeQuantity(' + ${item.idChitietGiohang} + ', -1, ' + ${item.gia} + ')'" >-</button>
+                            <input type="number" th:id="'quantity-' + ${item.idChitietGiohang}"
+                                   th:name="'quantity-' + ${item.idChitietGiohang}"
+                                   class="form-control border-black rounded-0 text-center bg-white border-start-0 c-input-quantity"
+                                   th:value="${item.soLuong}" style="text-align: center;" readonly>
+                            <button type="button"
+                                    class="btn btn-lg border border-black rounded-0"
+                                    th:onclick="'changeQuantity(' + ${item.idChitietGiohang} + ', 1, ' + ${item.gia} + ')'" >+</button>
+                        </div>
+                    </td>
+                    <td class="fs-5" th:id="'total-price-' + ${item.idChitietGiohang}"
+                        th:text="${item.gia * item.soLuong}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row price-totle mb-3">
+                <div class="col-md-4 col-sm-12 offset-md-8">
+                    <div class="total d-flex justify-content-between">
+                        <label class="label-form fs-5 fw-bold">Tổng tiền:</label>
+                        <p class="fs-5 total-text" th:text="${sumPrice}"><span>đ</span></p>
+                    </div>
+                    <div class="row box-btn-pay">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="btn btn-lg text-uppercase w-100 btn-pay">
+                                <a id="checkout-link" th:href="@{/thanh-toan}"
+                                   th:onclick="|checkOut(event)|"
+                                   class="text-black text-decoration-none">Thanh toán</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

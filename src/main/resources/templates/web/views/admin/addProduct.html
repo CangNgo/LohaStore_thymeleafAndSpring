@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.springframework.org/tags/form">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Sản Phẩm Mới</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .image-preview {
+            max-width: 300px;
+            max-height: 300px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            display: none;
+        }
+        #previewContainer {
+            text-align: center;
+        }
+        .preview-text {
+            color: #6c757d;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Thêm Sản Phẩm Mới</h2>
+            </div>
+            <div class="card-body">
+                <form th:method="POST" th:object="${sanpham}" th:action="@{/admin/product}" enctype="multipart/form-data">
+
+                    <div class="mb-3">
+                        <label for="loaiSanpham" class="form-label">Loại Sản Phẩm</label>
+                        <select th:field="*{loaiSanpham}" id="loaiSanpham" class="form-select">
+                            <option value="">-- Chọn loại sản phẩm --</option>
+                            <option th:each="loai : ${danhSachLoai}"
+                                    th:value="${loai.idLoaiSanpham}"
+                                    th:text="${loai.tenLoai}"></option>
+                        </select>
+                        <div th:if="${#fields.hasErrors('loaiSanpham')}" th:errors="*{loaiSanpham}" class="error"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tenSanpham" class="form-label">Tên Sản Phẩm</label>
+                        <input th:field="*{tenSanpham}" id="tenSanpham" class="form-control"/>
+                        <div th:if="${#fields.hasErrors('tenSanpham')}" th:errors="*{tenSanpham}" class="error"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label th:for="moTa" class="form-label">Mô Tả</label>
+                        <textarea th:field="*{moTa}" class="form-control" rows="3"></textarea>
+                        <div th:if="${#fields.hasErrors('moTa')}" th:errors="*{moTa}" class="error"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label th:for="gia" class="form-label">Giá</label>
+                        <input th:field="*{gia}" type="number" step="0.01" class="form-control"/>
+                        <div th:if="${#fields.hasErrors('gia')}" th:errors="*{gia}" class="error"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label th:for="soLuongTonKho" class="form-label">Số Lượng Tồn Kho</label>
+                        <input th:field="*{soLuongTonKho}" type="number" class="form-control"/>
+                        <div th:if="${#fields.hasErrors('soLuongTonKho')}" th:errors="*{soLuongTonKho}" class="error"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="hinhAnh" class="form-label">Hình Ảnh</label>
+                        <input type="file" th:field="*{hinhAnh}" class="form-control" id="hinhAnh" name="hinhAnh" accept="image/*" onchange="previewImage(this)">
+                        <div id="previewContainer">
+                            <img id="preview" class="image-preview" src="#" alt="Xem trước hình ảnh">
+                            <span id="previewText" class="preview-text">Chưa có hình ảnh được chọn</span>
+                        </div>
+                        <div th:if="${#fields.hasErrors('hinhAnh')}" th:errors="*{hinhAnh}" class="error"></div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Lưu Sản Phẩm</button>
+                        <a th:href="@{/admin/product}" class="btn btn-secondary">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById('preview');
+        const previewText = document.getElementById('previewText');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.style.display = 'block';
+                preview.src = e.target.result;
+                previewText.style.display = 'none';
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.style.display = 'none';
+            preview.src = '#';
+            previewText.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>

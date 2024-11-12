@@ -1,0 +1,72 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{web/templateWeb::templateWeb(~{::title}, ~{::main})}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hoa len</title>
+</head>
+<body>
+<main>
+    <div class="wrapper" th:controller="hoalenCtrl">
+        <div class="container-fluid">
+            <div class="box-banner-hoalen">
+                <div class="img-banner">
+                    <img th:src="@{'/web/img/HOATLIPCANH.jpg'}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end banner  -->
+    <!-- content  -->
+    <div id="content">
+        <div class="col-md-8 col-sm-8 offset-md-2 offset-sm-2 mt-5 c-product-line">
+            <hr>
+        </div>
+        <div class="container list-product-hoalen">
+            <div class="product-hot-list">
+                <div class="row col-md-12">
+                    <div class="row col-md-12 p-0">
+                        <div class="col-md-3 p-0">
+                            <!-- Include minimenu fragment -->
+                            <div th:replace="~{web/views/common/miniMenu :: minimenu}"></div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div th:each="item : ${listProductHoalen}"
+                                     class="col-md-4 col-sm-6 card border-0 rounded-5 product-hot-item mb-3 pe-0">
+                                    <div th:replace="~{web/views/common/item :: item(id=${item.idSanpham}, name=${item.tenSanpham}, price=${item.gia}, image=${item.hinhAnh})}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        <div class="page container">-->
+        <!--            <div class="row">-->
+        <!--                <ul class="pagination col-md-4 col-sm-4 offset-4 d-flex justify-content-center">-->
+        <!--                    <li class="page-item me-3 c-btn-pagination" th:onclick="changePage(${page} - 1)">-->
+        <!--                        <button class="page-link rounded-5" aria-label="Previous">-->
+        <!--                            <span aria-hidden="true">&laquo;</span>-->
+        <!--                        </button>-->
+        <!--                    </li>-->
+        <!--                    <li class="page-item me-3 c-btn-pagination" th:each="trang : ${pageList}">-->
+        <!--                        <a class="page-link rounded-5" th:text="${trang}"></a>-->
+        <!--                    </li>-->
+        <!--                    <li class="page-item me-3 c-btn-pagination">-->
+        <!--                        <button class="page-link rounded-5" aria-label="Next">-->
+        <!--                            <span aria-hidden="true">&raquo;</span>-->
+        <!--                        </button>-->
+        <!--                    </li>-->
+        <!--                </ul>-->
+        <!--            </div>-->
+        <!--        </div>  -->
+    </div>
+    <!-- end content  -->
+</main>
+</body>
+</html>

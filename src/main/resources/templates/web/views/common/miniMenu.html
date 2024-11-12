@@ -1,0 +1,13 @@
+<div th:fragment="minimenu" class="mini-nav p-0">
+    <div class="mini-container">
+        <div class="sub-mini-nav">
+            <span>DANH MỤC SẢN PHẨM</span>
+            <hr class="hr-mini-nav" style="border: 1.5px solid #B2D4E0;">
+            <ul class="row-mini-nav p-0">
+                <li><a th:href="@{/hoa-len(category='hoalen')}" style="color: #FF888E;">HOA LEN</a></li>
+                <li><a th:href="@{/moc-khoa(category='mockhoa')}">MÓC KHÓA</a></li>
+                <li><a th:href="@{/lien-he}">LIÊN HỆ</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<main th:fragment="item(id,name,price,image)">
+    <div class="box-product-img border border-1 border-bottom-0 rounded-top-5"
+         th:id="'box-product-img-' + ${id}"
+         th:onclick="'productDetail(' + ${id} + ')'"
+         style="cursor:pointer">
+        <img th:src="@{'/web/img/' + ${image}}" class="rounded-5" alt="">
+    </div>
+
+    <form action="chi-tiet-san-pham" id="chitietsanpham" method="GET">
+        <input type="hidden" name="idProduct" th:value="${id}">
+    </form>
+
+    <div class="box-product-text border border-1 rounded-bottom-5 border-top-0 card-body d-flex flex-column">
+        <p class="card-title text-center fs-5 fw-bold mb-0 c-item-title">
+            <a th:href="@{/chi-tiet-san-pham(idProduct=${id})}" class="text-decoration-none" th:text="${name}">[(${name})]</a>
+        </p>
+        <p class="text-center fs-5 m-0 product-price fw-bold" th:text="${price} + '/cây'"></p>
+        <button class="btn c-btn-pay rounded-4 fw-medium"
+                th:onclick="'addToCart(' + ${id} + ',' + ${price} + ')'">
+            Mua ngay<i class="fa-solid fa-cart-shopping"></i>
+        </button>
+    </div>
+</main>
